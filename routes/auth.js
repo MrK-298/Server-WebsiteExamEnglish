@@ -46,7 +46,7 @@ router.post('/login', async function (req, res, next) {
     Res.ResRend(res, false, "username hoặc password không chính xác");
   }
 });
-router.post('/register', checkUser(), async function (req, res, next) {//3
+router.post('/register', checkUser(), async function (req, res, next) {
   var result = validationResult(req);
   if (result.errors.length > 0) {
     Res.ResRend(res, false, result.errors);
@@ -58,6 +58,7 @@ router.post('/register', checkUser(), async function (req, res, next) {//3
       username: req.body.username,
       password: req.body.password,
       email: req.body.email,
+      roleId: "user",
       verificationCode: null     
     })
     await newUser.save();
@@ -83,6 +84,7 @@ router.put('/changePassword',checkLogin,checkPassword(), async function (req, re
   }
 });
 router.post('/resetPassword/:token',async function (req, res, next) {
+  try{
     let user = await userModel.findOne({
       tokenResetPassword: req.params.token
     })
@@ -99,6 +101,10 @@ router.post('/resetPassword/:token',async function (req, res, next) {
     user.tokenResetPasswordExp = undefined;
     await user.save();
     Res.ResRend(res, true, "cap nhat thanh cong")
+  }
+  catch (error) {
+    Res.ResRend(res, false, error)
+  }
 });
 router.post('/forgotPassword', async function (req, res, next) {
     let user = await userModel.findOne({

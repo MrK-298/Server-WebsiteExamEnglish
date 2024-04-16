@@ -36,6 +36,7 @@ router.post('/',async(req,res,next)=>{
               name: req.body.name,
               email: req.body.email,
               password: req.body.password,
+              roleId: "user",
               verificationCode: "",
               image: "",
             })

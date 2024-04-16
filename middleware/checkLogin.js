@@ -1,7 +1,7 @@
 var Res = require('../helpers/ResRender');
-var jwt = require('jsonwebtoken')
-var config = require('../config/config')
-var userModel = require('../models/userDatabase')
+var jwt = require('jsonwebtoken');
+var config = require('../config/config');
+var userModel = require('../models/userDatabase');
 
 module.exports = async function (req, res, next) {
     let token;

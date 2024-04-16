@@ -12,6 +12,10 @@ const userSchema = new Schema({
         password: String,
         email: String,
         name: String,
+        roleId: {
+            type: String,
+            ref: 'Roles'
+        }, 
         verificationCode: String,
         tokenResetPassword: String,
         tokenResetPasswordExp: String
@@ -28,7 +32,8 @@ userSchema.methods.genJWT = function () {
     return jwt.sign({
         id: this._id,
         username: this.username,
-        name: this.name
+        name: this.name,
+        role: this.roleId
     }, config.JWT_SECRETKEY, {
         expiresIn: config.JWT_EXP
     })

@@ -9,6 +9,7 @@ var usersRouter = require('./routes/users');
 var examsRouter = require('./routes/exams');
 var detailexamsRouter = require('./routes/detailExam');
 var authRouter = require('./routes/auth');
+var roleRouter = require('./routes/role');
 var app = express();
 
 // view engine setup
@@ -26,6 +27,7 @@ app.use('/api/v1/users', usersRouter);
 app.use('/api/v1/exams', examsRouter);
 app.use('/api/v1/detailExam', detailexamsRouter);
 app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/role', roleRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
