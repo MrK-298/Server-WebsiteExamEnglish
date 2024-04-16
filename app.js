@@ -8,6 +8,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var examsRouter = require('./routes/exams');
 var detailexamsRouter = require('./routes/detailExam');
+var authRouter = require('./routes/auth');
 var app = express();
 
 // view engine setup
@@ -24,6 +25,7 @@ app.use('/api/v1/', indexRouter);
 app.use('/api/v1/users', usersRouter);
 app.use('/api/v1/exams', examsRouter);
 app.use('/api/v1/detailExam', detailexamsRouter);
+app.use('/api/v1/auth', authRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

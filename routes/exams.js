@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var Res = require('../helpers/ResRender');
 var Exam = require('../models/examDatabase');
-var Res = require('../helpers/ResRender');
+var checkLogin = require('../middleware/checkLogin');
 router.get('/', async (req, res, next) => {
     try {
         let exam = await Exam.find();
@@ -14,7 +14,7 @@ router.get('/', async (req, res, next) => {
         Res.ResRend(res,false,err)
     }
 });
-router.get('/getExam/:examName', async (req, res, next) => {
+router.get('/getExam/:examName',checkLogin, async (req, res, next) => {
     try {
         let examName = req.params.examName;
         let exam = await Exam.findOne({ name: examName });

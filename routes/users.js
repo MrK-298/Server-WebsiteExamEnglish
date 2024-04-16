@@ -1,9 +1,9 @@
 var express = require('express');
 var router = express.Router();
-
+var checkLogin = require('../middleware/checkLogin');
 var userModel = require('../models/userDatabase');
 
-router.get('/', async (req, res,next) => {
+router.get('/',checkLogin, async (req, res,next) => {
     try {
         let users = await userModel.find();
         res.json(users);
