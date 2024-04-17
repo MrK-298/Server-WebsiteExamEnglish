@@ -12,6 +12,7 @@ const userSchema = new Schema({
         password: String,
         email: String,
         name: String,
+        isDelete: Boolean,
         roleId: {
             type: String,
             ref: 'Roles'
