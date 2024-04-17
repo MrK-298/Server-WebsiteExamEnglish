@@ -21,7 +21,6 @@ router.put('/edit/:username', checkAdmin, async function (req, res, next) {
         username.email = req.body.email;
         username.name = req.body.name;
         username.roleId = req.body.roleId;
-
         await username.save();
         Res.ResRend(res,true,username)
     }

@@ -47,4 +47,19 @@ router.post('/getDetailExam/', async (req, res, next) => {
         Res.ResRend(res,false,err)
     }
 });
+router.get('/:username', async (req, res, next) => {
+    try {
+        let username = await userModel.findOne({
+            username: req.params.username
+        })
+        console.log(username._id);
+        let exam = await detailExam.find({userId : username._id});
+        if (!exam) {
+            Res.ResRend(res,false,err)
+        }
+        Res.ResRend(res,true,exam);
+    } catch (err) {
+        Res.ResRend(res,false,err)
+    }
+});
 module.exports = router;

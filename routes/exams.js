@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+const mongoose = require('mongoose');
 var Res = require('../helpers/ResRender');
 var Exam = require('../models/examDatabase');
 var checkLogin = require('../middleware/checkLogin');
@@ -23,6 +24,18 @@ router.get('/getExam/:examName',checkLogin, async (req, res, next) => {
             Res.ResRend(res,false,err)
         }
         return res.json(exam);
+    } catch (err) {
+        Res.ResRend(res,false,err)
+    }
+});
+router.get('/getExamById/:examId', async (req, res, next) => {
+    try {
+        let objectId = new mongoose.Types.ObjectId(req.params.examId);
+        let exam = await Exam.findOne({ _id: objectId, isDelete: false });
+        if (!exam) {
+            Res.ResRend(res,false,err)
+        }
+        Res.ResRend(res,true,exam)
     } catch (err) {
         Res.ResRend(res,false,err)
     }

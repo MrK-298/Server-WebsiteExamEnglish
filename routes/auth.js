@@ -27,9 +27,9 @@ router.post('/login', async function (req, res, next) {
     Res.ResRend(res, false, "thieu thong tin");
     return;
   }
-  let user = await userModel.findOne({ username: username })
+  let user = await userModel.findOne({ username: username , isDelete:false })
   if (!user) {
-    Res.ResRend(res, false, "username khong ton tai");
+    Res.ResRend(res, false, "username khong ton tai hoac tai khoan da bi khoa");
     return;
   }
   let result = bcrypt.compareSync(password, user.password);
@@ -40,7 +40,8 @@ router.post('/login', async function (req, res, next) {
         httpOnly: true
       }).send({
         success: true,
-        data: token
+        data: token,
+        role: user.roleId
       })
   } else {
     Res.ResRend(res, false, "username hoặc password không chính xác");
@@ -67,23 +68,7 @@ router.post('/register', checkUser(), async function (req, res, next) {
     Res.ResRend(res, false, error)
   }
 });
-router.put('/changePassword',checkLogin,checkPassword(), async function (req, res, next) {
-  try {
-    let { oldpassword, newpassword} = req.body;
-    let result = bcrypt.compareSync(oldpassword, req.user.password);
-    if (result) {
-      let user = await userModel.findById(req.user._id);
-      user.password = newpassword;
-      await user.save();
-      Res.ResRend(res,true,"Đổi thông tin thành công")
-    } else {
-      Res.ResRend(res, false, "password cu sai");
-    }
-  }catch (error) {
-    Res.ResRend(res, false, error)
-  }
-});
-router.post('/resetPassword/:token',async function (req, res, next) {
+router.put('/resetPassword/:token',async function (req, res, next) {
   try{
     let user = await userModel.findOne({
       tokenResetPassword: req.params.token
