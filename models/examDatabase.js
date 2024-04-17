@@ -18,6 +18,7 @@ const questionSchema = new mongoose.Schema({
 
 const examSchema = new mongoose.Schema({
     name: String,
+    isDelete: Boolean,
     questions: [questionSchema]
 },
 {
