@@ -19,7 +19,7 @@ router.post('/add',checkAdmin,async function (req, res, next) {
 });
 router.get('/getAll',async function (req, res, next) {
     try{
-        let role = await roleModel.find({isDelete:!true});
+        let role = await roleModel.find({isDelete:false});
         if(!role){
             Res.ResRend(res,false,"Không tìm thấy role")
         }

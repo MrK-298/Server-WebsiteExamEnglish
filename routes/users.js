@@ -7,41 +7,49 @@ var checkAdmin = require('../middleware/checkAdmin');
 router.get('/',checkAdmin, async (req, res,next) => {
     try {
         let users = await User.find({isDelete:false});
-        res.json(users);
+        Res.ResRend(res,true,users)
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: 'Lỗi khi lấy dữ liệu người dùng' });
+        Res.ResRend(res,false,err)
     }
 });
-router.put('/edit/:username', checkAdmin, async function (req, res, next) {
+router.get('/getUserDelete',checkAdmin, async (req, res,next) => {
+    try {
+        let users = await User.find({isDelete:true});
+        Res.ResRend(res,true,users)
+    } catch (err) {
+        Res.ResRend(res,false,err)
+    }
+});
+router.put('/edit/:username', async function (req, res, next) {
     try{
-        let username = await User.findOne({
+        let user = await User.findOne({
             username: req.params.username
         })
-        username.email = req.body.email;
-        username.name = req.body.name;
-        username.roleId = req.body.roleId;
-        await username.save();
-        Res.ResRend(res,true,username)
+        console.log(user);
+        user.email = req.body.email;
+        user.name = req.body.name;
+        user.roleId = req.body.roleId;
+        await user.save();
+        Res.ResRend(res,true,user)
     }
     catch (err) {
         Res.ResRend(res,false,err)
     }
 });
-router.delete('/delete/:username',checkAdmin, async function (req, res, next) {
+router.delete('/delete/:username', async function (req, res, next) {
     try{
-        let username = await User.findOne({
+        let user = await User.findOne({
             username: req.params.username
         })
-        username.isDelete = true;
-        await username.save();
-        Res.ResRend(res,true,username)
+        user.isDelete = true;
+        await user.save();
+        Res.ResRend(res,true,user)
     }
     catch (err) {
         Res.ResRend(res,false,err)
     }
 });
-router.put('/recover/:username', checkAdmin, async function (req, res, next) {
+router.put('/recover/:username', async function (req, res, next) {
     try{
         let username = await User.findOne({
             username: req.params.username
@@ -56,14 +64,12 @@ router.put('/recover/:username', checkAdmin, async function (req, res, next) {
 });
 
 
-router.get('/findbyEmail/:email', async (req, res, next) => {
+router.get('/findbyUsername/:username',checkAdmin, async (req, res, next) => {
     try {
-        let users = await userModel.find({ email: req.params.email });
-        res.json(users);
+        let users = await User.findOne({ username: req.params.username });
+        Res.ResRend(res,true,users)
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: 'Lỗi khi lấy dữ liệu người dùng' });
+        Res.ResRend(res,false,err)
     }
 });
-
 module.exports = router;

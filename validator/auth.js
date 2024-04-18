@@ -28,6 +28,5 @@ module.exports = function () {
         check('email', Notifies.NOTI_EMAIL).isEmail(),
         check("username", util.format(Notifies.NOTI_USERNAME, options.username.min, options.username.max)).isLength(options.username),
         check("password", util.format(Notifies.NOTI_PASSWORD,options.password.minLength,options.password.minNumbers,options.password.minUppercase,options.password.minLowercase,options.password.minSymbols)).isStrongPassword(options.password),
-
     ]
 }

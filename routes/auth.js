@@ -60,7 +60,8 @@ router.post('/register', checkUser(), async function (req, res, next) {
       password: req.body.password,
       email: req.body.email,
       roleId: "user",
-      verificationCode: null     
+      verificationCode: null,
+      isDelete : false
     })
     await newUser.save();
     Res.ResRend(res, true, newUser)
