@@ -16,6 +16,17 @@ router.get('/', async (req, res, next) => {
         Res.ResRend(res,false,err)
     }
 });
+router.get('/getAllExam',checkAdmin, async (req, res, next) => {
+    try {
+        let exam = await Exam.find();
+        if (!exam) {
+            Res.ResRend(res,false,err)
+        }
+        Res.ResRend(res,true,exam);
+    } catch (err) {
+        Res.ResRend(res,false,err)
+    }
+});
 router.get('/getExam/:examName',checkLogin, async (req, res, next) => {
     try {
         let examName = req.params.examName;
@@ -54,7 +65,7 @@ router.put('/edit/:examName',checkAdmin,async function (req, res, next) {
         Res.ResRend(res,false,err)
     }
 });
-router.delete('/delete/:examName',checkAdmin,async function (req, res, next) {
+router.delete('/delete/:examName',async function (req, res, next) {
     try{
         let exam = await Exam.findOne({
             name: req.params.examName
@@ -68,7 +79,7 @@ router.delete('/delete/:examName',checkAdmin,async function (req, res, next) {
         Res.ResRend(res,false,err)
     }
 });
-router.put('/recover/:examName',checkAdmin,async function (req, res, next) {
+router.put('/recover/:examName',async function (req, res, next) {
     try{
         let exam = await Exam.findOne({
             name: req.params.examName
