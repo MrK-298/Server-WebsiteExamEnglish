@@ -19,7 +19,7 @@ router.post('/add',checkAdmin,async function (req, res, next) {
 });
 router.get('/getAll',async function (req, res, next) {
     try{
-        let role = await roleModel.find({isDelete:false});
+        let role = await roleModel.find();
         if(!role){
             Res.ResRend(res,false,"Không tìm thấy role")
         }
@@ -43,7 +43,20 @@ router.put('/edit/:roleId',checkAdmin,async function (req, res, next) {
         Res.ResRend(res,false,err)
     }
 });
-router.delete('/delete/:roleId',checkAdmin,async function (req, res, next) {
+router.put('/recover/:roleId',async function (req, res, next) {
+    try{
+        let role = await roleModel.findOne({
+            roleId: req.params.roleId
+        })
+        role.isDelete = false;
+        await role.save();
+        Res.ResRend(res,true,role)
+    }
+    catch (err) {
+        Res.ResRend(res,false,err)
+    }
+});
+router.delete('/delete/:roleId',async function (req, res, next) {
     try{
         let role = await roleModel.findOne({
             roleId: req.params.roleId
