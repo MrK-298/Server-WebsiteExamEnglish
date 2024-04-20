@@ -104,6 +104,6 @@ router.post('/forgotPassword', async function (req, res, next) {
     await user.save(); 
     let url = `http://127.0.0.1:5500/views/resetPassword.html?token=${token}`;
     await sendMail(user.email,url);
-    Res.ResRend(res, true, "check mail bo` li")
+    Res.ResRend(res, true, "Vui long check mail cua ban!")
 });
 module.exports = router;

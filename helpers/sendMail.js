@@ -16,6 +16,6 @@ module.exports = async function (mailDes, url) {
         from: 'Website8Bit <tranduyanh2174@gmai.com>',
         to: mailDes,
         subject: "Xác nhận đổi mật khẩu", // Subject line
-        html: "<a href=" + url + ">click here</a>", // html body
+        html: "<p>bấm vào click here để đổi mật khẩu<a href=" + url + ">  click here</a></p>", // html body
     });
 }
